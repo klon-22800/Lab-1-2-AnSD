@@ -1,5 +1,7 @@
 #include <matrix/matrix.h>
+#include <iostream>
+#include <random>
+#include <complex>
 
-int sum_stub(int lhs, int rhs) {
-    return lhs + rhs;
-}
+using namespace M;
+using namespace std;
