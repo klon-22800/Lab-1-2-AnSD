@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <matrix/matrix.h>
 #include <iostream>
+#include <complex>
 using namespace M;
 
 TEST(MatrixTests, Cons) {
@@ -71,7 +72,7 @@ TEST(MatrixTests, operator_minus) {
 TEST(MatrixTests, operator_multiply_by_num) {
 	int array[] = { 1,2,3,4,5,6,7,8,9,10,11,12 };
 	Matrix<int> a(3, 4, array, 12);	
-	a = a * 8;
+	a = 8*a;
 	int check = a(2, 2);
 	EXPECT_EQ(check, 88);
 }
@@ -95,5 +96,34 @@ TEST(MatrixTests, trace) {
 	int array[] = { 1,2,3,4,5,6,7,8,9};
 	Matrix<int> a(3, 3, array, 9);
 	int check = a.trace();
-	EXPECT_EQ(check, 330);
+	EXPECT_EQ(check, 15);
 }
+TEST(MatrixTests, determinate) {
+	int array[] = { 1,2,3,4,5,6,7,8,9 };
+	Matrix<int> a(3, 3, array, 9);
+	int check = a.determinate();
+	EXPECT_EQ(check, 0);
+}
+TEST(MatrixTests, transponate) {
+	int array[] = { 1,2,3,4,5,6};
+	Matrix<int> a(3, 2, array, 6);
+	cout << a<<endl;
+	a = a.transponate();
+	cout << a;
+	int check = a(0, 1);
+	EXPECT_EQ(check, 3);
+}
+TEST(MatrixTests, complex_num) {
+	std::complex<float> array[] = {1,2,3,4,5,6 };
+	Matrix <std::complex<float>> a(3, 2, array, 6);
+	cout << a << endl;
+	a = a.transponate();
+	cout << a;
+}
+
+//TEST(MatrixTests, minor) {
+//	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+//	Matrix<int> a(3, 3, array, 9);
+//	int check = a.minor(2,1);
+//	EXPECT_EQ(check, -1);
+//}
