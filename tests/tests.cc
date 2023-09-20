@@ -121,9 +121,21 @@ TEST(MatrixTests, complex_num) {
 	cout << a;
 }
 
-//TEST(MatrixTests, minor) {
-//	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
-//	Matrix<int> a(3, 3, array, 9);
-//	int check = a.minor(2,1);
-//	EXPECT_EQ(check, -1);
-//}
+TEST(MatrixTests, minor) {
+	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+	Matrix<int> a(3, 3, array, 9);
+	int check = a.minor(2,1);
+	EXPECT_EQ(check, -34);
+}
+TEST(MatrixTests, algebraic_complement) {
+	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+	Matrix<int> a(3, 3, array, 9);
+	a = a.algebraic_complement();
+	cout << a;
+}
+TEST(MatrixTests, inverse_matrix) {
+	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+	Matrix<int> a(3, 3, array, 9);
+	a = a.inverse_matrix();
+	cout << a;
+}

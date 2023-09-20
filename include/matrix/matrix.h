@@ -107,30 +107,32 @@ namespace M {
             }
         }
 
-        T minor(int i, int j){ // переписать 
-            Matrix b(*this);
+        T minor(int i, int j) { // переписать 
             Matrix minor(_rows - 1, _cols - 1);
-            for (int m = 0; m < _rows; m++) {
-                for (int n = 0; n < _cols; n++) {
-                    if (m == i || n == j) {
-                        b(m, n) = 1;
-                    }
+            for (int m = 0; m < _rows - 1; m++) {
+                for (int n = 0; n < _cols - 1; n++) {
+                    if (m < i && n < j)
+                        minor._data[m][n] = _data[m][n];
+                    if (m >= i && n < j)
+                        minor._data[m][n] = _data[m + 1][n];
+                    if (m < i && n >= j)
+                        minor._data[m][n] = _data[m][n + 1];
+                    if (m >= i && n >= j)
+                        minor._data[m][n] = _data[m + 1][n + 1];
                 }
             }
-            cout << b;  
-            return b.determinate();
+            return minor.determinate();
         }
 
-        /*Matrix algebraic_complement() {
+        Matrix algebraic_complement() {
             Matrix result(*this);
             for (int i = 0; i < _rows; i++) {
                 for (int j = 0; j < _cols; j++) {
                     result(i, j) = pow(-1, (i + 1) + (j + 1)) * minor(i, j);
-                    cout << result(i, j);
                 }
             }
             return result;
-        }*/
+        }
 
         Matrix inverse_matrix() {
             T determinant = determinate();
@@ -141,7 +143,7 @@ namespace M {
             else {
                 Matrix algebraic_compelment = algebraic_complement();
                 algebraic_compelment = algebraic_compelment.transponate();
-                return (1 / determinant * algebraic_compelment);
+                return ((1 / determinant) * algebraic_compelment);
             }
         }
 
@@ -158,7 +160,7 @@ namespace M {
         T& operator()(const int r_ind, const int c_ind)const {
             return _data[r_ind][c_ind];
         };
-        Matrix operator=(const Matrix& a)
+        Matrix& operator=(const Matrix& a)
         {
             if (_rows > 0)
             {
