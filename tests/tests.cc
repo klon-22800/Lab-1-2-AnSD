@@ -9,6 +9,12 @@ TEST(MatrixTests, Cons) {
 	Matrix<int> a(3, 4, array,12);
 	cout << a;
 }
+TEST(MatrixTests, random_constructor) {
+	float a = 10;
+	float b = 100;
+	Matrix <float> c (3, 4, a, b);
+	cout << c;
+}
 TEST(MatrixTests, get_rows) {
 	int array[] = { 1,2,3,4,5,6,7,8,9,10,11,12 };	
 	Matrix<int> a(3, 4, array, 12);

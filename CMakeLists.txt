@@ -30,3 +30,6 @@ FetchContent_MakeAvailable(googletest)
 # ќбъ€вл€ем тесты
 add_executable(tests "tests/tests.cc")
 target_link_libraries(tests matrix GTest::gtest_main)
+
+add_executable(console "console/console.cc")
+target_link_libraries(console PUBLIC "matrix")

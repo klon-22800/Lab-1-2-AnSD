@@ -3,10 +3,21 @@
 #include <random>
 #include <complex>
 #include <exception>
-#include <cmath>
+#include <math.h>
+#include <iomanip>  
 using namespace std;
 
 namespace M {
+    template<typename T>
+    T random(T a, T b) {
+        std::random_device random_device; // Источник энтропии.
+        std::mt19937 generator(random_device()); // Генератор случайных чисел.
+        // (Здесь берется одно инициализирующее значение, можно брать больше)
+        std::uniform_int_distribution<> distribution(a, b); // Равномерное распределение [a, b]
+        T x = distribution(generator); // Случайное число.
+        return x;
+    }
+
     template<typename T>
     class Matrix {
     private:
@@ -32,6 +43,18 @@ namespace M {
             for (int i = 0; i < _rows; i++) {
                 for (int j = 0; j < _cols; j++)
                     _data[i][j] = 0;
+            }
+        }
+        Matrix(int rows, int cols, T bottom_limit, T upper_limit) {
+            _rows = rows;
+            _cols = cols;
+            _data = (T**) new T * [_rows];
+            for (int i = 0; i < _rows; i++) {
+                _data[i] = (T*)new T[_cols];
+            }
+            for (int i = 0; i < _rows; i++) {
+                for (int j = 0; j < _cols; j++)
+                    _data[i][j] = random(bottom_limit, upper_limit);
             }
         }
 
@@ -136,7 +159,7 @@ namespace M {
 
         Matrix inverse_matrix() {
             T determinant = determinate();
-            cout << determinant;
+        
             if (determinant == 0) {
                 throw("Determinant = 0, cant find the inverse matrix");
             }
@@ -304,7 +327,15 @@ namespace M {
         }
     }; 
 
-
+    template<typename T>
+    T round(T a) {
+        if (a > -0.000001 && a < 0.000001) {
+            return 0;
+        }
+        else {
+            return std::round(a * 100000) / 100000;
+        }
+    }
     template<typename T> 
     Matrix<T> operator *(T num, Matrix<T>& a) {
         Matrix b(a);
@@ -321,7 +352,7 @@ namespace M {
             cout << endl;
             for (int j = 0; j < a.get_cols(); ++j)
             {
-                std::cout << a(i,j) << " \t";
+                std::cout<< round(a(i,j)) << "\t";
             }
             cout << endl;
         }
