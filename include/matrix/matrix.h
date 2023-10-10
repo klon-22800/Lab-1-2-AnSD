@@ -352,10 +352,24 @@ namespace M {
             cout << endl;
             for (int j = 0; j < a.get_cols(); ++j)
             {
-                std::cout<< round(a(i,j)) << "\t";
+                std::cout<<setw(10)<<round(a(i,j));
+            }
+            cout << endl;
+        }
+        return stream;
+    }
+
+    ostream& operator<<(ostream& stream, Matrix<std::complex<float>>& a) {
+        for (int i = 0; i < a.get_rows(); ++i)
+        {
+            cout << endl;
+            for (int j = 0; j < a.get_cols(); ++j)
+            {
+                std::cout << setw(10) << a(i, j);
             }
             cout << endl;
         }
         return stream;
     }
 }
+

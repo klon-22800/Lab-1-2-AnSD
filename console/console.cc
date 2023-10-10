@@ -6,7 +6,7 @@ using namespace M;
 int main() {
 	int lower_limit = -100;
 	int upper_limit = 100;
-	Matrix < double > a(3, 3, lower_limit, upper_limit);
+	Matrix < double > a(3, 3, -100, upper_limit);
 	Matrix<double> b = a.inverse_matrix();
 	cout << a<<endl;
 	cout << b<<endl;
