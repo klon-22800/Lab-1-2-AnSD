@@ -127,6 +127,7 @@ TEST(MatrixTests, complex_num) {
 	cout << a;
 }
 
+
 TEST(MatrixTests, minor) {
 	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
 	Matrix<int> a(3, 3, array, 9);
@@ -144,4 +145,32 @@ TEST(MatrixTests, inverse_matrix) {
 	Matrix<int> a(3, 3, array, 9);
 	a = a.inverse_matrix();
 	cout << a;
+}
+TEST(MatrixTests, complex_num_inverse) {
+	std::complex <double> num(1, 1);
+	std::complex<int> num_2(2, 2);
+	std::complex<double> array[] = {num,2,3,4,5,6,7,8,11 };
+	Matrix <std::complex<double>> a(3, 3, array, 9);
+	cout << a << endl;
+	a = a.inverse_matrix();
+	cout << a;
+	/*std::complex<double> res = cast<double, int>(num) / cast<double, int>(num_2);
+	cout << num / num_2<<endl;
+	cout << res;*/
+}
+TEST(MatrixTests, operator_equalation) {
+	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+	Matrix<int> a(3, 3, array, 9);
+	Matrix<int> b(3, 3, array, 9);
+	bool res = a == b;
+	
+	EXPECT_EQ(res, true);
+}
+TEST(MatrixTests, anti_operator_equalation) {
+	int array[] = { 2,5,7,6,3,4,5,-2,-3 };
+	Matrix<int> a(3, 3, array, 9);
+	Matrix<int> b(3, 3, array, 9);
+	bool res = a != b;
+
+	EXPECT_EQ(res, false);
 }

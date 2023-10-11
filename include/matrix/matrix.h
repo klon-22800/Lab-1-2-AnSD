@@ -130,7 +130,7 @@ namespace M {
             }
         }
 
-        T minor(int i, int j) { // переписать 
+        T minor(int i, int j) { 
             Matrix minor(_rows - 1, _cols - 1);
             for (int m = 0; m < _rows - 1; m++) {
                 for (int n = 0; n < _cols - 1; n++) {
@@ -151,22 +151,27 @@ namespace M {
             Matrix result(*this);
             for (int i = 0; i < _rows; i++) {
                 for (int j = 0; j < _cols; j++) {
-                    result(i, j) = pow(-1, (i + 1) + (j + 1)) * minor(i, j);
+                    
+                    T pows = pow(-1, (i) + (j));
+                    T minor_1 = minor(i, j);
+                    result(i, j) = pows*minor_1;
                 }
             }
             return result;
         }
 
         Matrix inverse_matrix() {
+            cout << determinate();
             T determinant = determinate();
-        
-            if (determinant == 0) {
+            
+            if (determinant == T(0)) {
                 throw("Determinant = 0, cant find the inverse matrix");
             }
             else {
-                Matrix algebraic_compelment = algebraic_complement();
+                Matrix algebraic_compelment = algebraic_complement();       
                 algebraic_compelment = algebraic_compelment.transponate();
-                return ((1 / determinant) * algebraic_compelment);
+                T one = T(1);
+                return ((one / determinant) * algebraic_compelment);
             }
         }
 
@@ -180,8 +185,11 @@ namespace M {
             return b;
         }
 
-        T& operator()(const int r_ind, const int c_ind)const {
-            return _data[r_ind][c_ind];
+        T& operator()(const size_t r_ind, const size_t c_ind)const {
+            if (r_ind < _rows && c_ind < _cols) {
+                return _data[r_ind][c_ind];
+            }
+            throw("Incorrect index");
         };
         Matrix& operator=(const Matrix& a)
         {
@@ -236,6 +244,23 @@ namespace M {
             }
             
         }
+        bool operator ==(const Matrix& a) {
+            if (_cols != a._cols && _rows != a._rows)
+                return false;
+            else {
+                for (int i = 0; i < _rows; i++) {
+                    for (int j = 0; j < _cols; j++) {
+                        if (_data[i][j] != a._data[i][j]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        bool operator !=(const Matrix& a) {
+            return !(*this == a);
+        }
        
         friend Matrix operator +(Matrix& a, const Matrix& b) {
 
@@ -270,7 +295,7 @@ namespace M {
          }
 
          friend Matrix operator /(Matrix& a, T num) {
-             if (num == 0) {
+             if (num == T(0)) {
                  throw("Division by zero");
              }
              else {
@@ -359,17 +384,63 @@ namespace M {
         return stream;
     }
 
-    ostream& operator<<(ostream& stream, Matrix<std::complex<float>>& a) {
+    template<typename U>
+    bool operator==(const std::complex<U> a, double b) {
+        if (a.real() == b && a.imag() == 0)
+            return true;
+        return false;
+    }
+
+    
+    template <typename D, typename S> 
+    std::complex<D> cast(const std::complex<S> s)
+    {
+        return std::complex<D>(s.real(), s.imag());
+    }
+
+    /*template<typename U>
+    std::complex<U> operator /(int b, std::complex<U>a) {
+        complex<U> b_complex(b, 0);
+        complex<U> conjugate(a.real(), (-a.imag()));
+        return b_complex * conjugate;
+    }*/
+
+   
+    /*template<typename U>
+    std::complex<U> operator *(std::complex<U> &a, double b) {
+        return complex(a.real()*b, a.imag()*b);
+    }
+
+    template<typename U>
+    std::complex<U> operator *(double b, std::complex<U>& a) {
+        return complex(a.real() * b, a.imag() * b);
+    }
+
+    template<typename U>
+    std::complex<U> operator *(std::complex<U>& a, int b) {
+        return complex(a.real() * b, a.imag() * b);
+    }
+
+    template<typename U>
+    std::complex<U> operator *(int b, std::complex<U>& a) {
+        return complex(a.real() * b, a.imag() * b);
+    }*/
+    
+    
+
+    template<typename U>
+    ostream& operator<<(ostream& stream, Matrix<std::complex<U>> a) {
         for (int i = 0; i < a.get_rows(); ++i)
         {
             cout << endl;
             for (int j = 0; j < a.get_cols(); ++j)
             {
-                std::cout << setw(10) << a(i, j);
+                std::cout << setw(10) <<"("<< round(a(i, j).real()) << "," << round(a(i, j).imag())<<")";
             }
             cout << endl;
         }
         return stream;
     }
+
 }
 

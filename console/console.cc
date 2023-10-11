@@ -6,10 +6,14 @@ using namespace M;
 int main() {
 	int lower_limit = -100;
 	int upper_limit = 100;
-	Matrix < double > a(3, 3, -100, upper_limit);
-	Matrix<double> b = a.inverse_matrix();
+	std::complex <double> num(1, 1);
+	std::complex<double> num_2(2, 2);
+	std::complex<double> array[] = { num,num_2,3,4,5,6,7,8,11 };
+	Matrix <std::complex<double>> a(3, 3, array, 9);
+	/*Matrix <double> a(3, 3, -100, 100);*/
+	Matrix<std::complex<double>> b = a.inverse_matrix();
 	cout << a<<endl;
 	cout << b<<endl;
-	Matrix<double> c = a * b;
+	Matrix<std::complex<double>> c = a * b;
 	cout << c<<endl;
 }
